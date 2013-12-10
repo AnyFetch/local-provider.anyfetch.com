@@ -24,7 +24,7 @@ module.exports = {
 
   // Optional params
 
-  connect_url: process.env.PROVIDER_CONNECT_URL, // Callback URI for cluestr
-  cluestr_id: process.env.PROVIDER_CLUESTR_ID,
-  cluestr_secret: process.env.PROVIDER_CLUESTR_SECRET,
+  connect_url: process.env.LOCAL_CONNECT_URL, // Callback URI for cluestr
+  cluestr_id: process.env.LOCAL_CLUESTR_ID,
+  cluestr_secret: process.env.LOCAL_CLUESTR_SECRET,
 };
