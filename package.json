@@ -1,7 +1,7 @@
 {
-  "name": "cluestr-provider-google-contact",
+  "name": "cluestr-provider-local",
   "version": "0.1.0",
-  "author": "Matthieu Bacconnier <matthieu.bacconnier@papiel.fr>",
+  "author": "Florian Rossiaud <florian.rossiaud@gmail.com>",
   "bin": {
     "server": "./bin/server"
   },
@@ -11,15 +11,15 @@
     "test": "NODE_ENV=test mocha -R spec -t 25000",
     "lint": "jshint lib/ test/ config/ bin/"
   },
-  "main": "./lib/provider-PROVIDER",
+  "main": "./lib/provider-local",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Papiel/provider-PROVIDER"
+    "url": "https://github.com/Papiel/provider-local"
   },
   "keywords": [
     "cluestr",
     "provider",
-    "PROVIDER"
+    "local"
   ],
   "dependencies": {
     "async": "0.2.x",

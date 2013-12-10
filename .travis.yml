@@ -2,10 +2,12 @@ language: node_js
 services: mongodb
 node_js:
 - '0.10'
-before_script: npm install --dev
-script: npm test
+install:
+  - npm install
+script:
+  - npm test
 env:
   global:
-    - PROVIDER_CONNECT_URL="NP"
-    - PROVIDER_CLUESTR_ID="CLUESTR-ID"
-    - PROVIDER_CLUESTR_SECRET="CLUESTR-SECRET"
+    - LOCAL_CONNECT_URL="NP"
+    - LOCAL_CLUESTR_ID="CLUESTR-ID"
+    - LOCAL_CLUESTR_SECRET="CLUESTR-SECRET"

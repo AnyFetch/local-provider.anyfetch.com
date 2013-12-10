@@ -2,7 +2,7 @@
 
 // Load configuration and initialize server
 var cluestrProvider = require('cluestr-provider');
-var serverConfig = require('./lib/provider-PROVIDER');
+var serverConfig = require('./lib/provider-local');
 
 var server = cluestrProvider.createServer(serverConfig);
 
