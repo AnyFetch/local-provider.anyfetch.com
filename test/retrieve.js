@@ -3,31 +3,19 @@
 require('should');
 
 var path = require("path");
+var fs = require("fs");
 
-var config = require('../config/configuration.js');
+var retrieveFile = require('../lib/provider-local/helpers/retrieve.js');
 
-var retrieveFile = require('../lib/provider-local/helpers/retrieve.js')
 // Check datas are retrieved from PROVIDER
-
 describe("getFileFromPath(path)", function () {
-  it("should list the file inside the sample directory", function(done) {
+  it("should list the files inside the sample directory", function(done) {
     retrieveFile.getFileFromPath(path.resolve("test/sample"), function(err, res) {
       if(err) {
         throw err;
       }
-      var test = true;
-      if(Object.keys(res).length != 5)
-        test = false;
-      if( !("/txt1.txt" in res) ||
-          !("/txt2.txt" in res) ||
-          !("/txt3.txt" in res) ||
-          !("/test/txt1.doc" in res) ||
-          !("/test/txt2.txt" in res) ) {
-        test = false;
-      }
-      if(!test) {
-        throw new Error("The result didn't contain the good value.");
-      }
+
+      Object.keys(res).should.eql(['/txt1.txt', '/txt2.txt', '/txt3.txt', '/test/txt1.doc', '/test/txt2.txt']);
       done();
     });
   });
@@ -37,24 +25,25 @@ describe("getFileFromPath(path)", function () {
 describe("retrieve file", function () {
   it("should return the new file that are updated", function(done) {
     var cursor = {
-      '/txt2.txt': 1387277853000, //Same
-      '/txt3.txt': 1387277863000, //Same
-      '/test/txt1.doc': 1387277000000, //Older
-      //'/txt1.txt': 1387277838000,
-      //'/test/txt2.txt': 1387277912000 //Doesnt exist
-    }
+      '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
+      '/txt2.txt': fs.statSync(__dirname + '/sample/txt2.txt').mtime.getTime(),
+      '/test/txt1.doc': fs.statSync(__dirname + '/sample/test/txt2.txt').mtime.getTime() - 500,
+    };
+
     retrieveFile({'path' : path.resolve("test/sample")}, cursor, function(err, fileToUpload, newCursor) {
       if(err) {
         throw err;
       }
 
-      fileToUpload.should.eql(['/txt1.txt', '/test/txt1.doc', '/test/txt2.txt']);
-      newCursor.should.eql({  '/txt1.txt': 1387277838000,
-                              '/txt2.txt': 1387277853000,
-                              '/txt3.txt': 1387277863000,
-                              '/test/txt1.doc': 1387277898000,
-                              '/test/txt2.txt': 1387277912000 }
-      );
+      // Should contain new files and updated files
+      fileToUpload.should.eql(['/txt3.txt', '/test/txt1.doc', '/test/txt2.txt']);
+      newCursor.should.eql({
+        '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
+        '/txt2.txt': fs.statSync(__dirname + '/sample/txt2.txt').mtime.getTime(),
+        '/txt3.txt': fs.statSync(__dirname + '/sample/txt3.txt').mtime.getTime(),
+        '/test/txt1.doc': fs.statSync(__dirname + '/sample/test/txt1.doc').mtime.getTime(),
+        '/test/txt2.txt': fs.statSync(__dirname + '/sample/test/txt2.txt').mtime.getTime()
+      });
 
       done();
     });
