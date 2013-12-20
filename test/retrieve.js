@@ -7,7 +7,7 @@ var fs = require("fs");
 
 var retrieveFile = require('../lib/provider-local/helpers/retrieve.js');
 
-// Check datas are retrieved from PROVIDER
+// Check datas are retrieved from filesystem
 describe("getFileFromPath(path)", function () {
   it("should list the files inside the sample directory", function(done) {
     retrieveFile.getFileFromPath(path.resolve("test/sample"), function(err, res) {
@@ -22,7 +22,7 @@ describe("getFileFromPath(path)", function () {
 });
 
 
-describe("retrieve file", function () {
+describe("Retrieve file", function () {
   it("should return the new file that are updated", function(done) {
     var cursor = {
       '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
