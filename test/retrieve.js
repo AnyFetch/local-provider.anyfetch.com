@@ -27,7 +27,7 @@ describe("Retrieve file", function () {
     var cursor = {
       '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
       '/txt2.txt': fs.statSync(__dirname + '/sample/txt2.txt').mtime.getTime(),
-      '/test/txt1.doc': fs.statSync(__dirname + '/sample/test/txt2.txt').mtime.getTime() - 500,
+      '/test/txt1.doc': fs.statSync(__dirname + '/sample/test/txt1.doc').mtime.getTime() - 500,
     };
 
     retrieveFile({'path' : path.resolve("test/sample")}, cursor, function(err, fileToUpload, newCursor) {

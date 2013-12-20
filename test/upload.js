@@ -7,7 +7,7 @@ require('should');
 var serverConfig = require('../lib/provider-local');
 
 
-describe.only("Workflow", function () {
+describe("Workflow", function () {
 // Create a fake HTTP server
   process.env.CLUESTR_SERVER = 'http://localhost:1337';
   var frontServer = CluestrProvider.debug.createTestApiServer();
