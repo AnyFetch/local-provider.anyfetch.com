@@ -5,7 +5,7 @@ require('should');
 var path = require("path");
 var fs = require("fs");
 
-var retrieveFile = require('../lib/provider-local/helpers/retrieve.js');
+var retrieveFile = require('../lib/helpers/retrieve.js');
 
 // Check datas are retrieved from filesystem
 describe("getFileFromPath(path)", function () {

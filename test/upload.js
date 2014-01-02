@@ -4,7 +4,7 @@ var request = require('supertest');
 var CluestrProvider = require('cluestr-provider');
 require('should');
 
-var serverConfig = require('../lib/provider-local');
+var serverConfig = require('../lib/');
 
 
 describe("Workflow", function () {
