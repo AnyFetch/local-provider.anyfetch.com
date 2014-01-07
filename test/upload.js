@@ -10,8 +10,8 @@ var serverConfig = require('../lib/');
 describe("Workflow", function () {
 // Create a fake HTTP server
   process.env.CLUESTR_SERVER = 'http://localhost:1337';
-  var frontServer = CluestrProvider.debug.createTestApiServer();
-  frontServer.listen(1337);
+  var apiServer = CluestrProvider.debug.createTestApiServer();
+  apiServer.listen(1337);
 
   before(CluestrProvider.debug.cleanTokens);
   before(function(done) {

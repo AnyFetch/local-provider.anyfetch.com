@@ -33,3 +33,56 @@ describe("GET /init/options", function () {
       });
   });
 });
+
+describe("GET /init/callback", function () {
+  var frontServer = CluestrProvider.debug.createTestFrontServer();
+  frontServer.listen(1337);
+
+  it("should check for path param", function(done) {
+    request(app).get('/init/callback?code=123')
+      .expect(500)
+      .end(function(err, res) {
+        if(err) {
+          throw err;
+        }
+
+        res.text.should.include('Missing path');
+
+        done();
+      });
+  });
+
+  it("should check directory exists", function(done) {
+    request(app).get('/init/callback?code=123&path=/lol-not-exist')
+      .expect(500)
+      .end(function(err, res) {
+        if(err) {
+          throw err;
+        }
+
+        res.text.should.include('directory does not exist');
+
+        done();
+      });
+  });
+
+  it("should check path is not a file", function(done) {
+    request(app).get('/init/callback?code=123&path=' + __filename)
+      .expect(500)
+      .end(function(err, res) {
+        if(err) {
+          throw err;
+        }
+
+        res.text.should.include('is not a directory');
+
+        done();
+      });
+  });
+
+  it("should work with valid path", function(done) {
+    request(app).get('/init/callback?code=123&path=' + __dirname)
+      .expect(302)
+      .end(done);
+  });
+});
