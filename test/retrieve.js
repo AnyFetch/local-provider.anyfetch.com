@@ -15,7 +15,12 @@ describe("getFileFromPath(path)", function () {
         throw err;
       }
 
-      Object.keys(res).should.eql(['/txt1.txt', '/txt2.txt', '/txt3.txt', '/test/txt1.doc', '/test/txt2.txt']);
+      Object.keys(res).should.include('/txt1.txt');
+      Object.keys(res).should.include('/txt2.txt');
+      Object.keys(res).should.include('/txt3.txt');
+      Object.keys(res).should.include('/test/txt1.doc');
+      Object.keys(res).should.include('/test/txt2.txt');
+      Object.keys(res).should.have.lengthOf(5);
       done();
     });
   });
