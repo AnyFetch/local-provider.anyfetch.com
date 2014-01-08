@@ -9,9 +9,9 @@ var serverConfig = require('../lib/');
 
 describe("Workflow", function () {
 // Create a fake HTTP server
-  process.env.CLUESTR_SERVER = 'http://localhost:1337';
-  var apiServer = CluestrProvider.debug.createTestApiServer(true);
-  apiServer.listen(1337);
+  process.env.CLUESTR_SERVER = 'http://localhost:1338';
+  var apiServer = CluestrProvider.debug.createTestApiServer();
+  apiServer.listen(1338);
 
   before(CluestrProvider.debug.cleanTokens);
   before(function(done) {
@@ -27,7 +27,14 @@ describe("Workflow", function () {
     serverConfig.queueWorker = function(file, cluestrClient, datas, cb) {
       file.should.have.property('path');
 
-      originalQueueWorker(file, cluestrClient, datas, cb);
+      originalQueueWorker(file, cluestrClient, datas, function(err) {
+        // Manually throw err (async.queue discards)
+        if(err) {
+          return done(err);
+        }
+
+        cb();
+      });
     };
     var server = CluestrProvider.createServer(serverConfig);
 
