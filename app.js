@@ -1,11 +1,11 @@
 "use strict";
 
 // Load configuration and initialize server
-var CluestrProvider = require('cluestr-provider');
+var AnyFetchProvider = require('anyfetch-provider');
 var serverConfig = require('./lib/');
 var fs = require('fs');
 
-var server = CluestrProvider.createServer(serverConfig);
+var server = AnyFetchProvider.createServer(serverConfig);
 
 //Root the init/options page to configure the directory of this specific provider
 server.get('/init/options', function(req, res, next) {    

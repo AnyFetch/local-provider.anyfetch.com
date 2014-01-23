@@ -1,5 +1,5 @@
 {
-  "name": "cluestr-provider-local",
+  "name": "anyfetch-provider-local",
   "version": "0.1.0",
   "author": "Florian Rossiaud <florian.rossiaud@gmail.com>",
   "bin": {
@@ -17,7 +17,7 @@
     "url": "https://github.com/Papiel/provider-local"
   },
   "keywords": [
-    "cluestr",
+    "anyfetch",
     "provider",
     "local"
   ],
@@ -25,7 +25,7 @@
     "async": "0.2.x",
     "request": "2.30.x",
     "sspawn": "0.1.1",
-    "cluestr-provider": "0.x.x",
+    "anyfetch-provider": "0.x.x",
     "newrelic": "1.x.x"
   },
   "devDependencies": {

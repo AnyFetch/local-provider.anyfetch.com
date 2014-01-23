@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('supertest');
-var CluestrProvider = require('cluestr-provider');
+var AnyFetchProvider = require('anyfetch-provider');
 require('should');
 
 var serverConfig = require('../lib/');
@@ -10,24 +10,24 @@ var serverConfig = require('../lib/');
 describe("Workflow", function () {
 // Create a fake HTTP server
   process.env.CLUESTR_SERVER = 'http://localhost:1338';
-  var apiServer = CluestrProvider.debug.createTestApiServer();
+  var apiServer = AnyFetchProvider.debug.createTestApiServer();
   apiServer.listen(1338);
 
-  before(CluestrProvider.debug.cleanTokens);
+  before(AnyFetchProvider.debug.cleanTokens);
   before(function(done) {
-    CluestrProvider.debug.createToken({
-      cluestrToken: 'fake_local_access_token',
+    AnyFetchProvider.debug.createToken({
+      anyfetchToken: 'fake_local_access_token',
       datas: {path: __dirname + '/sample'},
       cursor: {}
     }, done);
   });
 
-  it("should upload datas to Cluestr", function (done) {
+  it("should upload datas to AnyFetch", function (done) {
     var originalQueueWorker = serverConfig.queueWorker;
-    serverConfig.queueWorker = function(file, cluestrClient, datas, cb) {
+    serverConfig.queueWorker = function(file, anyfetchClient, datas, cb) {
       file.should.have.property('path');
 
-      originalQueueWorker(file, cluestrClient, datas, function(err) {
+      originalQueueWorker(file, anyfetchClient, datas, function(err) {
         // Manually throw err (async.queue discards)
         if(err) {
           return done(err);
@@ -36,7 +36,7 @@ describe("Workflow", function () {
         cb();
       });
     };
-    var server = CluestrProvider.createServer(serverConfig);
+    var server = AnyFetchProvider.createServer(serverConfig);
 
     server.queue.drain = function() {
       done();
