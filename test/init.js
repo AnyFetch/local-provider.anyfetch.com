@@ -2,9 +2,9 @@
 
 require('should');
 var request = require('supertest');
-var CluestrProvider = require("cluestr-provider");
+var AnyFetchProvider = require("anyfetch-provider");
 
-process.env.CLUESTR_FRONT = 'http://localhost:1337';
+process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
 var app = require('../app.js');
 
 describe("GET /init/connect", function () {
@@ -35,7 +35,7 @@ describe("GET /init/options", function () {
 });
 
 describe("GET /init/callback", function () {
-  var frontServer = CluestrProvider.debug.createTestFrontServer();
+  var frontServer = AnyFetchProvider.debug.createTestFrontServer();
   frontServer.listen(1337);
 
   it("should check for path param", function(done) {
