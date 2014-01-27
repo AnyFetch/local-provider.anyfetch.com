@@ -25,6 +25,6 @@ module.exports = {
   // Optional params
 
   connect_url: process.env.LOCAL_CONNECT_URL, // Callback URI for anyfetch
-  anyfetch_id: process.env.LOCAL_CLUESTR_ID,
-  anyfetch_secret: process.env.LOCAL_CLUESTR_SECRET,
+  anyfetch_id: process.env.LOCAL_ANYFETCH_ID,
+  anyfetch_secret: process.env.LOCAL_ANYFETCH_SECRET,
 };

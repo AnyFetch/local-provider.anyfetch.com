@@ -9,7 +9,7 @@ var serverConfig = require('../lib/');
 
 describe("Workflow", function () {
 // Create a fake HTTP server
-  process.env.CLUESTR_SERVER = 'http://localhost:1338';
+  process.env.ANYFETCH_API_URL = 'http://localhost:1338';
   var apiServer = AnyFetchProvider.debug.createTestApiServer();
   apiServer.listen(1338);
 

@@ -4,7 +4,7 @@ require('should');
 var request = require('supertest');
 var AnyFetchProvider = require("anyfetch-provider");
 
-process.env.CLUESTR_FRONT = 'http://localhost:1337';
+process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
 var app = require('../app.js');
 
 describe("GET /init/connect", function () {
