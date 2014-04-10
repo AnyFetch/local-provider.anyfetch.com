@@ -40,7 +40,7 @@ You're nearly done!
 Let's send a request to our local provider:
 
 ```
-curl -XPOST http://localhost:8000/update?access_token=${TOKEN}&api_url=http://api.anyfetch.com
+curl -XPOST "http://localhost:8000/update?access_token=${TOKEN}&api_url=http://api.anyfetch.com"
 ```
 
 You're done ! In the `node` shell you should now see the logs.
