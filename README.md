@@ -31,7 +31,16 @@ db.tokens.find()
 Copy the last value for `anyfetchToken`, for instance:
 
 ```json
-{ "anyfetchToken" : "09710ea376b0c5a6e8fb739f5071e5667e16d0dd25e5e0474f53a18d4b0606f6", "datas" : { "path" : "/path/to/data/to/provide" }, "_id" : ObjectId("533c3e084256f8530af71dd4"), "lastUpdate" : null, "isUpdating" : false, "__v" : 0 }
+{
+    "anyfetchToken" : "09710ea376b0c5a6e8fb739f5071e5667e16d0dd25e5e0474f53a18d4b0606f6",
+    "datas" : {
+        "path" : "/path/to/data/to/provide"
+    },
+    "_id" : ObjectId("533c3e084256f8530af71dd4"),
+    "lastUpdate" : null,
+    "isUpdating" : false,
+    "__v" : 0
+}
 ```
 
 Our token will be `09710ea376b0c5a6e8fb739f5071e5667e16d0dd25e5e0474f53a18d4b0606f6`.
