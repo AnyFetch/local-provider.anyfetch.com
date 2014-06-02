@@ -7,7 +7,7 @@ var fs = require("fs");
 
 var retrieveFile = require('../lib/helpers/retrieve.js');
 
-// Check datas are retrieved from filesystem
+// Check data are retrieved from filesystem
 describe("getFileFromPath(path)", function () {
   it("should list the files inside the sample directory", function(done) {
     retrieveFile.getFileFromPath(path.resolve("test/sample"), function(err, res) {

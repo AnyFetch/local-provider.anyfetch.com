@@ -14,7 +14,7 @@
   "main": "./lib/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Papiel/local.provider.anyfetch.com"
+    "url": "https://github.com/AnyFetch/local.provider.anyfetch.com"
   },
   "keywords": [
     "anyfetch",
