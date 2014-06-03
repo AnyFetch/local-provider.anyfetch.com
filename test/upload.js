@@ -16,17 +16,17 @@ describe("Workflow", function () {
   before(function(done) {
     AnyFetchProvider.debug.createToken({
       anyfetchToken: 'fake_local_access_token',
-      datas: {path: __dirname + '/sample'},
+      data: {path: __dirname + '/sample'},
       cursor: {}
     }, done);
   });
 
-  it("should upload datas to AnyFetch", function (done) {
+  it("should upload data to AnyFetch", function (done) {
     var originalQueueWorker = serverConfig.queueWorker;
-    serverConfig.queueWorker = function(file, anyfetchClient, datas, cb) {
+    serverConfig.queueWorker = function(file, anyfetchClient, data, cb) {
       file.should.have.property('path');
 
-      originalQueueWorker(file, anyfetchClient, datas, function(err) {
+      originalQueueWorker(file, anyfetchClient, data, function(err) {
         // Manually throw err (async.queue discards)
         if(err) {
           return done(err);
