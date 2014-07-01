@@ -25,8 +25,9 @@
     "async": "0.8.x",
     "request": "2.34.x",
     "sspawn": "0.1.1",
-    "anyfetch-provider": ">=0.3.15",
-    "newrelic": "1.x.x"
+    "anyfetch-provider": "^0.3.15",
+    "newrelic": "1.x.x",
+    "dotenv": "^0.4.0"
   },
   "devDependencies": {
     "mocha": "1.18.x",
