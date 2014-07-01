@@ -3,6 +3,7 @@
 require('should');
 var request = require('supertest');
 var AnyFetchProvider = require("anyfetch-provider");
+var async = require('async');
 
 process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
 var app = require('../app.js');
@@ -78,11 +79,5 @@ describe("GET /init/callback", function () {
 
         done();
       });
-  });
-
-  it("should work with valid path", function(done) {
-    request(app).get('/init/callback?code=123&path=' + __dirname)
-      .expect(302)
-      .end(done);
   });
 });
