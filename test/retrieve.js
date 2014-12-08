@@ -5,21 +5,22 @@ require('should');
 var path = require("path");
 var fs = require("fs");
 
-var retrieveFile = require('../lib/helpers/retrieve.js');
+var getFileFromPath = require('../lib/update.js').getFileFromPath;
+var update = require('../lib/update.js');
 
 // Check data are retrieved from filesystem
-describe("getFileFromPath(path)", function () {
+describe("getFileFromPath(path)", function() {
   it("should list the files inside the sample directory", function(done) {
-    retrieveFile.getFileFromPath(path.resolve("test/sample"), function(err, res) {
+    getFileFromPath(path.resolve("test/sample"), function(err, res) {
       if(err) {
         throw err;
       }
 
-      Object.keys(res).should.include('/txt1.txt');
-      Object.keys(res).should.include('/txt2.txt');
-      Object.keys(res).should.include('/txt3.txt');
-      Object.keys(res).should.include('/test/txt1.doc');
-      Object.keys(res).should.include('/test/txt2.txt');
+      Object.keys(res).should.containEql('/txt1.txt');
+      Object.keys(res).should.containEql('/txt2.txt');
+      Object.keys(res).should.containEql('/txt3.txt');
+      Object.keys(res).should.containEql('/test/txt1.doc');
+      Object.keys(res).should.containEql('/test/txt2.txt');
       Object.keys(res).should.have.lengthOf(5);
       done();
     });
@@ -27,21 +28,31 @@ describe("getFileFromPath(path)", function () {
 });
 
 
-describe("Retrieve file", function () {
+describe("Retrieve file", function() {
   it("should return the new file that are updated", function(done) {
-    var cursor = {
+    var queues = {
+      addition: []
+    };
+
+    var cursor = JSON.stringify({
       '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
       '/txt2.txt': fs.statSync(__dirname + '/sample/txt2.txt').mtime.getTime(),
       '/test/txt1.doc': fs.statSync(__dirname + '/sample/test/txt1.doc').mtime.getTime() - 500,
-    };
+    });
 
-    retrieveFile({'path' : path.resolve("test/sample")}, cursor, function(err, fileToUpload, newCursor) {
+    update({path: path.resolve("test/sample")}, cursor, queues, function(err, newCursor) {
       if(err) {
-        throw err;
+        return done(err);
       }
 
-      // Should contain new files and updated files
-      fileToUpload.should.eql([{path:'/txt3.txt'}, {path:'/test/txt1.doc'}, {path:'/test/txt2.txt'}]);
+      newCursor = JSON.parse(newCursor);
+
+      queues.addition.should.eql([
+        {path: '/txt3.txt'},
+        {path: '/test/txt1.doc'},
+        {path: '/test/txt2.txt'}
+      ]);
+
       newCursor.should.eql({
         '/txt1.txt': fs.statSync(__dirname + '/sample/txt1.txt').mtime.getTime(),
         '/txt2.txt': fs.statSync(__dirname + '/sample/txt2.txt').mtime.getTime(),
