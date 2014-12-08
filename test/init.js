@@ -2,82 +2,68 @@
 
 require('should');
 var request = require('supertest');
-var AnyFetchProvider = require("anyfetch-provider");
-var async = require('async');
 
 process.env.ANYFETCH_SETTINGS_URL = 'http://localhost:1337';
 var app = require('../app.js');
 
-describe("GET /init/connect", function () {
+describe("GET /init/connect", function() {
   it("should redirect to option page", function(done) {
     request(app).get('/init/connect?code=123')
       .expect(302)
-      .expect('Location', /\/init\/options\?code=123/)
+      .expect('Location', /\/init\/options\?callback/)
       .end(done);
   });
 });
 
-describe("GET /init/options", function () {
+describe("GET /init/options", function() {
   it("should ask the user to select the path of the directory", function(done) {
-    request(app).get('/init/options?code=123')
+    request(app).get('/init/options?callback=test')
       .expect(200)
       .end(function(err, res) {
         if(err) {
           throw err;
         }
 
-        res.text.should.include('<form');
-        res.text.should.include('value="123"');
-        res.text.should.include('name="path"');
+        res.text.should.containDeep('<form');
+        res.text.should.containDeep('action="test"');
+        res.text.should.containDeep('name="path"');
 
         done();
       });
   });
 });
 
-describe("GET /init/callback", function () {
-  var frontServer = AnyFetchProvider.debug.createTestFrontServer();
-  frontServer.listen(1337);
+describe("GET /init/callback", function() {
+  var retrieveTokens = require('../lib/index.js').connectFunctions.retrieveTokens;
 
   it("should check for path param", function(done) {
-    request(app).get('/init/callback?code=123')
-      .expect(500)
-      .end(function(err, res) {
-        if(err) {
-          throw err;
-        }
+    var reqParams = {};
 
-        res.text.should.include('Missing path');
-
-        done();
-      });
+    retrieveTokens(reqParams, {}, function(err) {
+      err.should.match(/Missing path/i);
+      done();
+    });
   });
 
   it("should check directory exists", function(done) {
-    request(app).get('/init/callback?code=123&path=/lol-not-exist')
-      .expect(500)
-      .end(function(err, res) {
-        if(err) {
-          throw err;
-        }
+    var reqParams = {
+      path: '/lol-not-exist'
+    };
 
-        res.text.should.include('directory does not exist');
-
-        done();
-      });
+    retrieveTokens(reqParams, {}, function(err) {
+      err.should.match(/directory does not exist/i);
+      done();
+    });
   });
 
   it("should check path is not a file", function(done) {
-    request(app).get('/init/callback?code=123&path=' + __filename)
-      .expect(500)
-      .end(function(err, res) {
-        if(err) {
-          throw err;
-        }
+    var reqParams = {
+      path: __filename
+    };
 
-        res.text.should.include('is not a directory');
-
-        done();
-      });
+    retrieveTokens(reqParams, {}, function(err) {
+      err.should.match(/is not a directory/i);
+      done();
+    });
   });
 });
