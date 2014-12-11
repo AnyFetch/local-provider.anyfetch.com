@@ -1,19 +1,19 @@
 "use strict";
 
 // Load configuration and initialize server
-var AnyFetchProvider = require('anyfetch-provider');
+var anyfetchProvider = require('anyfetch-provider');
 var serverConfig = require('./lib/');
 var fs = require('fs');
 
-var server = AnyFetchProvider.createServer(serverConfig);
+var server = anyfetchProvider.createServer(serverConfig.connectFunctions, __dirname + '/lib/workers.js', __dirname + '/lib/update.js', serverConfig.config);
 
-//Root the init/options page to configure the directory of this specific provider
-server.get('/init/options', function(req, res, next) {    
-  fs.readFile('./templates/option-form.html', 'utf8',function read(err, data) {
-    if (err) {
+// Root the init/options page to configure the directory of this specific provider
+server.get('/init/options', function(req, res, next) {
+  fs.readFile('./templates/option-form.html', 'utf8', function read(err, data) {
+    if(err) {
       return next(err);
     }
-    var content = data.replace(/%code%/, req.params.code);
+    var content = data.replace(/%callback%/, req.params.callback);
 
     res.writeHead(200, {
       'Content-Length': Buffer.byteLength(content),
@@ -25,7 +25,7 @@ server.get('/init/options', function(req, res, next) {
 
     next();
   });
-})
+});
 
 // Expose the server
 module.exports = server;

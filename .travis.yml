@@ -1,5 +1,7 @@
 language: node_js
-services: mongodb
+services:
+  - mongodb
+  - redis-server
 node_js:
 - '0.10'
 install:
@@ -8,6 +10,6 @@ script:
   - npm test
 env:
   global:
-    - LOCAL_CONNECT_URL="NP"
-    - LOCAL_ANYFETCH_ID="CLUESTR-ID"
-    - LOCAL_ANYFETCH_SECRET="CLUESTR-SECRET"
+    - PROVIDER_URL="http://localhost:8000"
+    - ANYFETCH_API_ID="none"
+    - ANYFETCH_API_SECRET="none"
