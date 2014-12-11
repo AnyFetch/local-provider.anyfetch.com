@@ -22,9 +22,11 @@ if(node_env === "production") {
 
 // Exports configuration for use by app.js
 module.exports = {
-  env: node_env,
-  port: process.env.PORT || default_port,
-  workers: process.env.WORKERS || 1, // Number of workers for upload tasks
+  env: nodeEnv,
+  port: process.env.PORT || defaultPort,
+
+  usersConcurrency: process.env.USERS_CONCURRENCY || 1,
+  concurrency: process.env.CONCURRENCY || 1,
 
   // Optional params
 
